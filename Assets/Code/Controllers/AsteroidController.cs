@@ -5,6 +5,7 @@ using UnityEngine;
 public class AsteroidController : MonoBehaviour
 {
     public BlasteroidsController bc;
+    public float speed;
     
     void Update() {
         badCollisionChecker();
