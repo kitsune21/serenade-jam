@@ -14,6 +14,15 @@ public class CharacterMoveKeyboardControl : CharacterMoveBaseControl
     void Update()
     {
         UpdateDirection();
+        UpdateAction();
+    }
+
+    void UpdateAction()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            OnActionPressed();
+        }
     }
 
     void UpdateDirection()
