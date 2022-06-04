@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BlasteroidsController : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class BlasteroidsController : MonoBehaviour
     public GameObject player;
     public Vector2 target;
     public float speed;
-    private float asteroidSpeed;
     private int leftRightBound = 12;
     private int topBottomBound = 8;
     private float spawnTimer;
@@ -31,6 +31,17 @@ public class BlasteroidsController : MonoBehaviour
     public Camera myCamera;
     public Canvas myCanvas;
     public GameObject phoneImage;
+    private Vector2 phoneFullyClosed = new Vector2(0, -420);
+    private Vector2 phoneFullyOpen = new Vector2(0, -60);
+    public GameObject mainCanvas;
+    private GraphicRaycaster raycaster;
+    private PointerEventData clickData;
+    private List<RaycastResult> clickResults;
+    private List<GameObject> clickedElements;
+    private bool isDragging = false;
+    private Vector3 mousePosition;
+    private Vector3 prevMousePosition;
+    private GameObject draggingElement;
 
     public MusicController musicController;
     public SoundController soundController;
@@ -38,6 +49,7 @@ public class BlasteroidsController : MonoBehaviour
 
     public GameObject loadingPanel;
     public Slider loadingBar;
+    public bool readyToPlay = false;
 
     
     // Start is called before the first frame update
@@ -53,12 +65,17 @@ public class BlasteroidsController : MonoBehaviour
         scorePanel.SetActive(false);
         finalScorePanel.SetActive(false);
         loadingPanel.SetActive(false);
+        raycaster = mainCanvas.GetComponent<GraphicRaycaster>();
+        clickData = new PointerEventData(EventSystem.current);
+        clickResults = new List<RaycastResult>();
+        clickedElements = new List<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(gameStart) {
+        mouseDragUi();
+        if (gameStart) {
             laserCooldown();
             rotatePlayer();
             spawnAsteroids();
@@ -183,6 +200,7 @@ public class BlasteroidsController : MonoBehaviour
     }
 
     public void quitGameButton() {
+        deleteAsteroids();
         scorePanel.SetActive(true);
         gameStart = false;
         scoreText.text = "Score: 0";
@@ -191,10 +209,13 @@ public class BlasteroidsController : MonoBehaviour
         score = 0;
         myCamera.gameObject.SetActive(false);
         myCanvas.gameObject.SetActive(false);
-        musicController.stopClip();
-        slidePhoneAway();
+        if(musicController.isClipPlaying("blasteroids-main") || musicController.isClipPlaying("blasteroids-vamp"))
+        {
+            musicController.stopClip();
+        }
         loadingBar.value = 0;
         loadingPanel.SetActive(false);
+        readyToPlay = false;
     }
 
     public void resetGame() {
@@ -204,7 +225,7 @@ public class BlasteroidsController : MonoBehaviour
         player.SetActive(true);
         finalScorePanel.SetActive(false);
         score = 0;
-        soundController.playEffect("select");
+        soundController.playEffect("click");
     }
 
     private void deleteAsteroids() {
@@ -218,7 +239,7 @@ public class BlasteroidsController : MonoBehaviour
         vampTransition = true;
         musicController.endLoop();
         loadingPanel.SetActive(true);
-        soundController.playEffect("select");
+        soundController.playEffect("click");
     }
 
     private void waitTillVamp()
@@ -235,20 +256,90 @@ public class BlasteroidsController : MonoBehaviour
     }
 
     public void openGame() {
-        myCamera.gameObject.SetActive(true);
-        myCanvas.gameObject.SetActive(true);
-        phoneImage.SetActive(true);
-        slidePhoneIntoPlace();
-        startPanel.SetActive(true);
-        musicController.loopClip("blasteroids-vamp");
+        if(!readyToPlay)
+        {
+            myCamera.gameObject.SetActive(true);
+            myCanvas.gameObject.SetActive(true);
+            phoneImage.SetActive(true);
+            startPanel.SetActive(true);
+            musicController.loopClip("blasteroids-vamp");
+            readyToPlay = true;
+        }
     }
 
-    private void slidePhoneIntoPlace() {
-        phoneImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60);
-    }
-
-    private void slidePhoneAway()
+    void mouseDragUi()
     {
-        phoneImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(1000, 1000);
+        /** Houses the main mouse dragging logic. **/
+
+        mousePosition = Input.mousePosition;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            detectUi();
+        }
+
+        if (Input.GetMouseButton(0) && isDragging)
+        {
+            dragElement();
+        }
+        else
+        {
+            isDragging = false;
+        }
+
+        prevMousePosition = mousePosition;
+    }
+
+    void detectUi()
+    {
+        /** Detect if the mouse has been clicked on a UI element, and begin dragging **/
+
+        getUiElementsClicked();
+
+        if (clickedElements.Count > 0)
+        {
+            if(clickedElements[0].gameObject.tag == "Phone")
+            {
+                isDragging = true;
+                draggingElement = phoneImage;
+            }
+        }
+    }
+
+    void getUiElementsClicked()
+    {
+        /** Get all the UI elements clicked, using the current mouse position and raycasting. **/
+
+        clickData.position = mousePosition;
+        clickResults.Clear();
+        raycaster.Raycast(clickData, clickResults);
+        clickedElements.Clear();
+        foreach (RaycastResult result in clickResults)
+        {
+            clickedElements.Add(result.gameObject);
+        }
+    }
+
+    void dragElement()
+    {
+        /** Drag a UI element across the screen based on the mouse movement. **/
+
+        RectTransform elementRect = draggingElement.GetComponent<RectTransform>();
+
+        Vector2 drag_movement = mousePosition - prevMousePosition;
+        float newY = elementRect.anchoredPosition.y + drag_movement.y;
+        if(newY > -60)
+        {
+            newY = -60;
+            openGame();
+        } else if(newY < -420)
+        {
+            newY = -420;
+        }
+        if(newY < -60)
+        {
+            quitGameButton();
+        }
+        elementRect.anchoredPosition = new Vector2(elementRect.anchoredPosition.x, newY);
     }
 }

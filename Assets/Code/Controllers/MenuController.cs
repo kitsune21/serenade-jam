@@ -21,12 +21,23 @@ public class MenuController : MonoBehaviour
     public SoundController sc;
 
     public GameObject menuPanels;
+    public GameObject clockPanel;
+    public GameObject phone;
+
+    private bool waitForSound = false;
+    private float soundVolumeTimer;
+    private float soundVolumeTimerMax = 0.2f;
     
     // Start is called before the first frame update
     void Start()
     {
         selectedUpDown = 0;
         selectLeftRight = 0;
+        musicVolume = 0.5f;
+        soundVolume = 0.5f;
+        soundVolumeTimer = soundVolumeTimerMax;
+        updateMusicVolume();
+        updateSoundVolume();
     }
 
     // Update is called once per frame
@@ -35,6 +46,17 @@ public class MenuController : MonoBehaviour
         menuSelection();
         if(Input.GetKeyDown(KeyCode.Escape)) {
             exit();
+        }
+        if(waitForSound)
+        {
+            if(soundVolumeTimer > 0)
+            {
+                soundVolumeTimer -= Time.deltaTime;
+            } else
+            {
+                waitForSound = false;
+                soundVolumeTimer = soundVolumeTimerMax;
+            }
         }
     }
 
@@ -54,6 +76,11 @@ public class MenuController : MonoBehaviour
         int soundVolumeInt = (int)(soundVolume * 10);
         soundSliderText.text = soundVolumeInt.ToString();
         sc.volume = soundVolume;
+        if(!waitForSound)
+        {
+            sc.playEffect("click");
+            waitForSound = true;
+        }
     }
 
     private void menuSelection() {
@@ -87,5 +114,8 @@ public class MenuController : MonoBehaviour
     public void startGame()
     {
         menuPanels.SetActive(false);
+        clockPanel.SetActive(true);
+        phone.SetActive(true);
+        mc.fadeInClip("day-5");
     }
 }

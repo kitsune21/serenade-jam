@@ -7,6 +7,7 @@ TagManager:
   - BL-Asteroid
   - BL-Player
   - NPC
+  - Phone
   layers:
   - Default
   - TransparentFX
