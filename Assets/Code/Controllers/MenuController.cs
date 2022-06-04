@@ -18,6 +18,7 @@ public class MenuController : MonoBehaviour
     private int selectLeftRight;
 
     public MusicController mc;
+    public SoundController sc;
 
     public GameObject menuPanels;
     
@@ -52,6 +53,7 @@ public class MenuController : MonoBehaviour
         soundVolume = soundSlider.value;
         int soundVolumeInt = (int)(soundVolume * 10);
         soundSliderText.text = soundVolumeInt.ToString();
+        sc.volume = soundVolume;
     }
 
     private void menuSelection() {

@@ -33,6 +33,7 @@ public class BlasteroidsController : MonoBehaviour
     public GameObject phoneImage;
 
     public MusicController musicController;
+    public SoundController soundController;
     private bool vampTransition = false;
 
     public GameObject loadingPanel;
@@ -155,6 +156,7 @@ public class BlasteroidsController : MonoBehaviour
                 GameObject tempLaser = Instantiate(laser, player.transform.position, rotation, transform);
                 tempLaser.GetComponent<LaserController>().bc = gameObject;
                 canShoot = false;
+                soundController.playEffect("laser");
             }
         }
     }
@@ -162,6 +164,7 @@ public class BlasteroidsController : MonoBehaviour
     public void addScore() {
         score += 1;
         scoreText.text = "Score: " + score.ToString();
+        soundController.playEffect("explosion");
     }
 
     public void playerDied() {
@@ -171,6 +174,7 @@ public class BlasteroidsController : MonoBehaviour
 
     private void endGame() {
         //display final score panel
+        soundController.playEffect("explosion");
         player.SetActive(false);
         deleteAsteroids();
         scorePanel.SetActive(false);
@@ -200,6 +204,7 @@ public class BlasteroidsController : MonoBehaviour
         player.SetActive(true);
         finalScorePanel.SetActive(false);
         score = 0;
+        soundController.playEffect("select");
     }
 
     private void deleteAsteroids() {
@@ -213,6 +218,7 @@ public class BlasteroidsController : MonoBehaviour
         vampTransition = true;
         musicController.endLoop();
         loadingPanel.SetActive(true);
+        soundController.playEffect("select");
     }
 
     private void waitTillVamp()
