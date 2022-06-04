@@ -6,14 +6,14 @@ public class CharacterMoveBaseControl : MonoBehaviour
 {
 
     protected CharacterMoveModel m_MovementModel;
-    // private CharacterInteractionModel m_InteractionModel;
+    private CharacterInteractionModel m_InteractionModel;
  
     protected Animator m_animator;
     // prepare references before starting
     void Awake()
     {
         m_MovementModel = GetComponent<CharacterMoveModel>();
-        // m_InteractionModel = GetComponent<CharacterInteractionModel>();
+        m_InteractionModel = GetComponent<CharacterInteractionModel>();
         m_MovementModel.SetDirection(Vector2.down);
     }
 
@@ -35,7 +35,7 @@ public class CharacterMoveBaseControl : MonoBehaviour
         m_MovementModel.SetFacingDirection(direction);
     }
 
-    /* protected void OnActionPressed()
+    protected void OnActionPressed()
     {
         if (m_InteractionModel == null)
         {
@@ -43,7 +43,7 @@ public class CharacterMoveBaseControl : MonoBehaviour
         }
         m_InteractionModel.OnInteract();
         // if close enough and facing the target
-    } */
+    }
 
     // Update is called once per frame
     void Update()

@@ -4,7 +4,6 @@ using System.Collections;
 public class CharacterMoveModel : MonoBehaviour
 {
     public float Speed;
-    [SerializeField]
 
     private Vector3 m_MovementDirection;
     private Vector3 m_FacingDirection;
