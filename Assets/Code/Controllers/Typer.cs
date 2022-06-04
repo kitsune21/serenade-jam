@@ -8,8 +8,6 @@ using System.Data;
 
 public class Typer : MonoBehaviour
 {
-	// word bank
-
 	public Text wordOutput = null;
 	public Text wordCountText = null;
 	public Slider slider;
