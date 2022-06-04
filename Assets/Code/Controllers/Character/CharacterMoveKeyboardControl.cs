@@ -46,6 +46,7 @@ public class CharacterMoveKeyboardControl : CharacterMoveBaseControl
         {
             newDirection.x = 1;
         }
+        SetFacingDirection(newDirection);
         SetDirection(newDirection);
     }
 }
