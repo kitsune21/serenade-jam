@@ -107,8 +107,6 @@ public class WaterCooler : MonoBehaviour {
 		InstantiateButtons(GetResponseCategories(), CategoryButton);
     }
 
-    
-
     public void MakeResponse(GameObject response) {
 	    playerResponse = response.GetComponent<ButtonScript>().ButtonText;
 
