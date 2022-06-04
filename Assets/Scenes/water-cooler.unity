@@ -625,6 +625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1281160976}
   - component: {fileID: 1281160977}
+  - component: {fileID: 1281160978}
   m_Layer: 0
   m_Name: WaterCooler
   m_TagString: Untagged
@@ -664,6 +665,19 @@ MonoBehaviour:
   ResponseButton: {fileID: 6396650317617319830, guid: 3dcd90654b2aef348989f5bf6b15c563, type: 3}
   CategoryButton: {fileID: 1252625966869798973, guid: 281ff52d26c1efc4180ee5d2c0cb58b7, type: 3}
   BackButton: {fileID: 4917768512970587538, guid: a6c85dd038ea5304da6de4f4c3b3d89b, type: 3}
+  player: {fileID: 1281160978}
+--- !u!114 &1281160978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281160975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babb7e2a5283b044ea85105ddcfa3c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1477587439
 GameObject:
   m_ObjectHideFlags: 0

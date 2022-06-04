@@ -12,40 +12,51 @@ public class WaterCooler : MonoBehaviour {
 	public Button ResponseButton;
 	public Button CategoryButton;
 	public Button BackButton;
+	public PlayerKnownResponses player;
 	private List<Button> PanelButtons = new List<Button>();
 	private string prompt;
 	private string playerResponse;
 
-    // this will change with more prompts
-    private Dictionary<string, List<string>> prompts = SpeechPrompts.SportsPrompts;
+    // this comes from npcs?
+    private Dictionary<string, List<string>> prompts = new Dictionary<string, List<string>>();
 
-    // this will come from the Player controller
-    private static readonly List<string> knownSportsResponses = new List<string>() {
-	    "Football",
-	    "Ah yes, I sports talk",
-		"Nay brother. I donteth.",
-	    "It was ludicrous"
-    };
+	private void CreatePrompts() {
+		var categories = new List<string>();
 
-    private static readonly List<string> knownGeneralResponses = new List<string>() {
-	    "Cool story.",
-	    "I could go for some pizza.",
-	    "Neat."
-    };
+		foreach(var c in SpeechPrompts.Categories.Keys) {
+			categories.Add(c);
+		}
 
-    private readonly Dictionary<string, List<string>> knownResponses = new Dictionary<string, List<string>>() {
-	    {"Sports", knownSportsResponses},
-	    {"General", knownGeneralResponses}
-    };
+		var cat = categories[Random.Range(0, categories.Count)];
+
+		var NpcChoices = new List<string>();
+		var chosenCat = SpeechPrompts.Categories[cat];
+
+		foreach(var p in chosenCat.Keys){
+			NpcChoices.Add(p);
+		}
+
+		int count = NpcChoices.Count;
+
+		for (var i = 0; i < count / 2; i++) {
+			var prompt = NpcChoices[Random.Range(0, NpcChoices.Count)];
+			prompts.Add(prompt, chosenCat[prompt]);
+			NpcChoices.Remove(prompt);
+		}
+	}
 
     private void Start() {
+		CreatePrompts();
+
+
 	    NpcPrompt();
     }
 
     private void NpcPrompt() {
 	    List<string> npcPrompts = new List<string>();
 	    if (prompts.Count == 0) {
-			SetNpcText("All Done!");
+			string exit = SpeechPrompts.Exits[Random.Range(0, SpeechPrompts.Exits.Count)];
+			SetNpcText(exit);
 			return;
 	    }
 
@@ -63,6 +74,7 @@ public class WaterCooler : MonoBehaviour {
 
     private void SetNpcText(string text) {
 	    NpcText.text = text;
+		player.LearnPrompt(text);
     }
 
     private void SetPlayerText(string text) {
@@ -71,7 +83,7 @@ public class WaterCooler : MonoBehaviour {
 
 	private List<string> GetResponseCategories() {
 	    var responseCategories = new List<string>();
-	    foreach (var c in knownResponses.Keys) {
+	    foreach (var c in player.knownResponses.Keys) {
 		    responseCategories.Add(c);
 	    }
 
@@ -98,11 +110,10 @@ public class WaterCooler : MonoBehaviour {
 
 	    RemoveButtonsFromPanel();
 
-	    InstantiateButtons(knownResponses[cat], ResponseButton);
+	    InstantiateButtons(player.knownResponses[cat], ResponseButton);
     }
 
 	public void HandleBack() {
-		Debug.Log("Handle Back");
 		RemoveButtonsFromPanel();
 		InstantiateButtons(GetResponseCategories(), CategoryButton);
     }
@@ -121,7 +132,7 @@ public class WaterCooler : MonoBehaviour {
 	IEnumerator CheckResponse() {
 		yield return new WaitForSeconds(1);
 
-		if (SpeechPrompts.SportsPrompts[prompt].Contains(playerResponse)) {
+		if (prompts[prompt].Contains(playerResponse)) {
 			SetNpcText("Good job!");
 		} else {
 			SetNpcText("Booo!");
