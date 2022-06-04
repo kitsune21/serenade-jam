@@ -16,6 +16,11 @@ public class MenuController : MonoBehaviour
     public Button exitButton;
     private int selectedUpDown;
     private int selectLeftRight;
+
+    public MusicController mc;
+    public SoundController sc;
+
+    public GameObject menuPanels;
     
     // Start is called before the first frame update
     void Start()
@@ -41,12 +46,14 @@ public class MenuController : MonoBehaviour
         musicVolume = musicSlider.value;
         int musicVolumeInt = (int)(musicVolume * 10);
         musicSliderText.text = musicVolumeInt.ToString();
+        mc.updateVolume(musicVolume);
     }
 
     public void updateSoundVolume() {
         soundVolume = soundSlider.value;
         int soundVolumeInt = (int)(soundVolume * 10);
         soundSliderText.text = soundVolumeInt.ToString();
+        sc.volume = soundVolume;
     }
 
     private void menuSelection() {
@@ -75,13 +82,10 @@ public class MenuController : MonoBehaviour
                 soundSlider.Select();
             }
         }
-        if(Input.GetKeyDown(KeyCode.Return)) {
-            if(selectLeftRight == 0 && selectedUpDown == 0) {
-                Debug.Log("start the game");
-            }
-            if(selectLeftRight == 0 && selectedUpDown == 1) {
-                exit();
-            }
-        }
+    }
+
+    public void startGame()
+    {
+        menuPanels.SetActive(false);
     }
 }

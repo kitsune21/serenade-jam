@@ -10,11 +10,11 @@ public class BlasteroidsController : MonoBehaviour
     public GameObject player;
     public Vector2 target;
     public float speed;
-    public float asteroidSpeed;
-    private int leftRightBound = 11;
-    private int topBottomBound = 7;
+    private float asteroidSpeed;
+    private int leftRightBound = 12;
+    private int topBottomBound = 8;
     private float spawnTimer;
-    private float spawnTimerMax = 0.5f;
+    private float spawnTimerMax = 0.34f;
     private float laserTimer;
     private float laserTimerMax = 0.5f;
     private bool canShoot;
@@ -32,6 +32,13 @@ public class BlasteroidsController : MonoBehaviour
     public Canvas myCanvas;
     public GameObject phoneImage;
 
+    public MusicController musicController;
+    public SoundController soundController;
+    private bool vampTransition = false;
+
+    public GameObject loadingPanel;
+    public Slider loadingBar;
+
     
     // Start is called before the first frame update
     void Start()
@@ -45,6 +52,7 @@ public class BlasteroidsController : MonoBehaviour
         startPanel.SetActive(true);
         scorePanel.SetActive(false);
         finalScorePanel.SetActive(false);
+        loadingPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -56,6 +64,16 @@ public class BlasteroidsController : MonoBehaviour
             spawnAsteroids();
             shootLaser();
             moveAsteroids();
+        }
+        if(vampTransition)
+        {
+            loadingBar.value += Time.deltaTime;
+            if(musicController.getClipStatus())
+            {
+                waitTillVamp();
+                vampTransition = false;
+                loadingPanel.SetActive(false);
+            }
         }
     }
 
@@ -104,6 +122,7 @@ public class BlasteroidsController : MonoBehaviour
                 }
                 GameObject tempAsteroid = Instantiate(asteroid, spawnPoint, transform.rotation, transform);
                 tempAsteroid.GetComponent<AsteroidController>().bc = this;
+                tempAsteroid.GetComponent<AsteroidController>().speed = Random.Range(0.6f, 2.8f);
                 asteroidList.Add(tempAsteroid);
             }
         }
@@ -111,13 +130,12 @@ public class BlasteroidsController : MonoBehaviour
 
     private void moveAsteroids() {
         if(asteroidList.Count > 0) {
-            float step = asteroidSpeed * Time.deltaTime;
             foreach (GameObject ast in asteroidList)
             {
                 if(ast != null) {
                     Vector3 flatAsteroidPosition = new Vector3(ast.transform.position.x, ast.transform.position.y, player.transform.position.z);
                     Vector3 flatTargetPostion = new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z);
-                    ast.transform.position = Vector3.MoveTowards(flatAsteroidPosition, flatTargetPostion, step);
+                    ast.transform.position = Vector3.MoveTowards(flatAsteroidPosition, flatTargetPostion, ast.GetComponent<AsteroidController>().speed * Time.deltaTime);
                 }
             }
         }
@@ -138,6 +156,7 @@ public class BlasteroidsController : MonoBehaviour
                 GameObject tempLaser = Instantiate(laser, player.transform.position, rotation, transform);
                 tempLaser.GetComponent<LaserController>().bc = gameObject;
                 canShoot = false;
+                soundController.playEffect("laser");
             }
         }
     }
@@ -145,10 +164,7 @@ public class BlasteroidsController : MonoBehaviour
     public void addScore() {
         score += 1;
         scoreText.text = "Score: " + score.ToString();
-    }
-
-    private void resetScore() {
-        score = 0;
+        soundController.playEffect("explosion");
     }
 
     public void playerDied() {
@@ -158,6 +174,7 @@ public class BlasteroidsController : MonoBehaviour
 
     private void endGame() {
         //display final score panel
+        soundController.playEffect("explosion");
         player.SetActive(false);
         deleteAsteroids();
         scorePanel.SetActive(false);
@@ -174,7 +191,10 @@ public class BlasteroidsController : MonoBehaviour
         score = 0;
         myCamera.gameObject.SetActive(false);
         myCanvas.gameObject.SetActive(false);
-        phoneImage.SetActive(false);
+        musicController.stopClip();
+        slidePhoneAway();
+        loadingBar.value = 0;
+        loadingPanel.SetActive(false);
     }
 
     public void resetGame() {
@@ -184,6 +204,7 @@ public class BlasteroidsController : MonoBehaviour
         player.SetActive(true);
         finalScorePanel.SetActive(false);
         score = 0;
+        soundController.playEffect("select");
     }
 
     private void deleteAsteroids() {
@@ -194,6 +215,14 @@ public class BlasteroidsController : MonoBehaviour
     }
 
     public void startButton() {
+        vampTransition = true;
+        musicController.endLoop();
+        loadingPanel.SetActive(true);
+        soundController.playEffect("select");
+    }
+
+    private void waitTillVamp()
+    {
         scorePanel.SetActive(true);
         gameStart = true;
         scoreText.text = "Score: 0";
@@ -202,6 +231,7 @@ public class BlasteroidsController : MonoBehaviour
         score = 0;
         startPanel.SetActive(false);
         canShoot = true;
+        musicController.loopClip("blasteroids-main");
     }
 
     public void openGame() {
@@ -209,10 +239,16 @@ public class BlasteroidsController : MonoBehaviour
         myCanvas.gameObject.SetActive(true);
         phoneImage.SetActive(true);
         slidePhoneIntoPlace();
-        startButton();
+        startPanel.SetActive(true);
+        musicController.loopClip("blasteroids-vamp");
     }
 
     private void slidePhoneIntoPlace() {
         phoneImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -60);
+    }
+
+    private void slidePhoneAway()
+    {
+        phoneImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(1000, 1000);
     }
 }
