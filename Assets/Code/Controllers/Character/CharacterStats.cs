@@ -78,7 +78,7 @@ public class CharacterStats : MonoBehaviour
         }
         if (energyModifier < maxEnergyModifier * -1)
         {
-            energyModifier = maxEnergyModifier * -1);
+            energyModifier = maxEnergyModifier * -1;
         }
     }
 }
