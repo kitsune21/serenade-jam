@@ -9,17 +9,25 @@ public class CharacterStats : MonoBehaviour
     private int maxEnergy = 100;
     public float energyModifier = 0f;
     private int maxEnergyModifier = 1;
-    public bool isHavingFun = true;
+    public bool isHavingFun = false;
+    private float changePerSecond;
 
     // Use this for initialization
-    void Awake()
+    void Start()
     {
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        float oldChange = changePerSecond;
+        changePerSecond = 0.0001f * Mathf.Pow(energy, 2);
+        if (!isHavingFun)
+        {
+            changePerSecond *= -1;
+        }
+        energy = Mathf.Clamp(energy + changePerSecond * Time.deltaTime, 0, maxEnergy);
+        Debug.Log("Energy:" + energy + " - Energy Modifier:" + changePerSecond + " - Having Fun:" + isHavingFun);
     }
 
     public void SetEnergy(float amount)
