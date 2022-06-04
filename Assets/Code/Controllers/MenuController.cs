@@ -28,6 +28,9 @@ public class MenuController : MonoBehaviour
     void Update()
     {
         menuSelection();
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            exit();
+        }
     }
 
     public void exit() {

@@ -4,12 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - BL-Asteroid
+  - BL-Player
   - NPC
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Blasteroids
   - Water
   - UI
   - 
@@ -39,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Lower
+    uniqueID: 2090647771
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
