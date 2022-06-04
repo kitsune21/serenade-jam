@@ -6,6 +6,7 @@ TagManager:
   tags:
   - BL-Asteroid
   - BL-Player
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -45,4 +46,10 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Things
+    uniqueID: 3555788441
+    locked: 0
+  - name: Characters
+    uniqueID: 1408123687
     locked: 0
