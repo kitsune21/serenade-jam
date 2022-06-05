@@ -130,8 +130,9 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void gameOver(int score)
+    public void gameOver()
     {
+        int score = (int)clockPanel.GetComponent<TimeController>().totalTime();
         gameOverPanel.SetActive(true);
         finalScore.text = "Your Score: " + score.ToString();
     }

@@ -242,7 +242,6 @@ public class BlasteroidsController : MonoBehaviour
         musicController.endLoop();
         loadingPanel.SetActive(true);
         soundController.playEffect("click");
-        Debug.Log("test");
     }
 
     private void waitTillVamp()
