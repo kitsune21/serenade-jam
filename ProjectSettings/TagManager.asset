@@ -8,6 +8,7 @@ TagManager:
   - BL-Player
   - NPC
   - Phone
+  - Player Desk
   layers:
   - Default
   - TransparentFX

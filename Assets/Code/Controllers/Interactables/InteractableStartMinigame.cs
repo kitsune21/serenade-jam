@@ -15,6 +15,11 @@ public class InteractableStartMinigame : Interactable
 
     public override void OnInteract(Character character)
     {
+        // are we using the player's desk?
+        if (this.gameObject.CompareTag("Player Desk"))
+        {
+            character.Stats.SetUsingDesk(true); 
+        }
         // are we chatting up an NPC?
         if (this.gameObject.CompareTag("NPC"))
         {
@@ -41,6 +46,7 @@ public class InteractableStartMinigame : Interactable
             {
                 character.Movement.SetFrozen(false);
                 character.Stats.SetHavingFun(false);
+                character.Stats.SetUsingDesk(false);
                 currentText = 0;
 
                 // release the NPC if we're talking to them

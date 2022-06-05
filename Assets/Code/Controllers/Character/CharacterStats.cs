@@ -10,6 +10,7 @@ public class CharacterStats : MonoBehaviour
     public float energyModifier = 0f;
     private int maxEnergyModifier = 1;
     public bool isHavingFun = false;
+    private bool isUsingDesk = false;
     private float changePerSecond;
 
     // Use this for initialization
@@ -66,6 +67,16 @@ public class CharacterStats : MonoBehaviour
     public bool GetHavingFun()
     {
         return isHavingFun;
+    }
+
+    public void SetUsingDesk(bool newDesk)
+    {
+        isUsingDesk = newDesk;
+    }
+
+    public bool GetUsingDesk()
+    {
+        return isUsingDesk;
     }
 
     public float GetEnergy()
