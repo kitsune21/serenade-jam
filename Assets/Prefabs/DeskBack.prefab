@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 166548326336222307}
   - component: {fileID: 7127478619291540040}
+  - component: {fileID: 3428515098643158052}
   m_Layer: 4
   m_Name: DeskBack
   m_TagString: Untagged
@@ -82,3 +83,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &3428515098643158052
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444768693887794729}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.6875, y: 3.125}
+    newSize: {x: 4.6875, y: 3.125}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.6512346, y: 1.5294695}
+      - {x: -1.746439, y: 0.991097}
+      - {x: -1.7354288, y: -0.16013777}
+      - {x: -0.3108673, y: -0.87986755}
+      - {x: 0.900908, y: -1.4854288}
+      - {x: 1.9559588, y: -0.96340823}
+      - {x: 1.8644896, y: 0.23365444}
+      - {x: 1.4715099, y: 0.06315315}
+      - {x: 0.9279027, y: 0.2510563}
+      - {x: 0.593441, y: 0.11266416}
+      - {x: -0.61333656, y: 0.78077567}
