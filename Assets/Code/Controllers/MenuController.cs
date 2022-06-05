@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
@@ -24,10 +23,7 @@ public class MenuController : MonoBehaviour
     public GameObject menuPanels;
     public GameObject clockPanel;
     public GameObject phone;
-    public GameObject gameOverPanel;
-    public Text finalScore;
     public GameObject energyPanel;
-
 
     private bool waitForSound = false;
     private float soundVolumeTimer;
