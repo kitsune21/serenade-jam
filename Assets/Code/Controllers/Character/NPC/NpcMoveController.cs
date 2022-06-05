@@ -6,6 +6,8 @@ public class NpcMoveController : ActorMoveBaseControl
     private float timeToAct;
     private float timeToWait = .5f;
     private int currentNode = 0;
+    private bool canTalk = false;
+    private bool isTalking = false;
     public GameObject[] nodes;
     private bool goingToDestination = true;
     public int distance = 5;
@@ -19,8 +21,6 @@ public class NpcMoveController : ActorMoveBaseControl
     // Update is called once per frame
     void Update()
     {
-        UpdateDirection();
-        
     }
 
     void UpdateDirection()
@@ -38,6 +38,7 @@ public class NpcMoveController : ActorMoveBaseControl
                 {
                     currentNode = nodes.Length - 2;
                     goingToDestination = false;
+                    canTalk = true;
                     timeToWait = 2f;
                 }
             } else
@@ -53,10 +54,25 @@ public class NpcMoveController : ActorMoveBaseControl
         }
     }
 
+    public bool GetCanTalk()
+    {
+        return canTalk;
+    }
+
+    public void SetIsTalking(bool newIsTalking)
+    {
+        isTalking = newIsTalking;
+        if (!isTalking)
+        {
+            StartCoroutine(Wait());
+        }
+    }
+
     IEnumerator Walk()
     {
         if (timeToWait > .5f)
         {
+            canTalk = false;
             timeToWait = .5f;
         }
         Vector2 newDirection = Vector2.zero;
@@ -81,8 +97,10 @@ public class NpcMoveController : ActorMoveBaseControl
         SetDirection(Vector2.zero);
         float waitMax = timeToWait * 1.5f;
         timeToAct = Random.Range(timeToWait, waitMax);
-        Debug.Log(waitMax);
         yield return new WaitForSeconds(timeToAct);
-        StartCoroutine(Walk());
+        if (!isTalking)
+        {
+            StartCoroutine(Walk());
+        }
     }
 }
