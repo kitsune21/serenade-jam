@@ -10,7 +10,7 @@ public class NpcDialogue : MonoBehaviour
 	public Text PlayerText;
 	public GameObject TextPanel;
 	public GameObject PromptPanel;
-    public GameObject TestingPanel;
+    // public GameObject TestingPanel;
 	public Button PromptButton;
 	public Button CategoryButton;
 	public Button BackButton;
@@ -61,10 +61,10 @@ public class NpcDialogue : MonoBehaviour
 		
 	}
 
-    public void OpenNpcDialogue() {
+    public void startNpcDialogue() {
         TextPanel.SetActive(true);
         PromptPanel.SetActive(true);
-        TestingPanel.SetActive(false);
+        // TestingPanel.SetActive(false);
         SetNpcText("Hello");
         SetPlayerText("");
         InstantiateButtons(GetPromptCategories(), CategoryButton);
@@ -74,22 +74,20 @@ public class NpcDialogue : MonoBehaviour
     {
         TextPanel.SetActive(false);
         PromptPanel.SetActive(false);
-        Player.LearnResponse("Cool story");
-        Player.LearnResponse("Neat.");
         CreatePrompts();
     }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)){
-            Close();
+            stopNpcDialogue();
         }
     }
 
-    private void Close() {
+    private void stopNpcDialogue() {
         RemoveButtonsFromPanel();
         TextPanel.SetActive(false);
         PromptPanel.SetActive(false);
-        TestingPanel.SetActive(true);
+        // TestingPanel.SetActive(true);
     }
 
     private void SetNpcText(string text) {
