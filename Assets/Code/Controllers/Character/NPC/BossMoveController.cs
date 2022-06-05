@@ -46,8 +46,8 @@ public class BossMoveController : NpcMoveController
         Debug.DrawRay(transform.position, playerDir * 100f);
         Debug.DrawRay(transform.position, deskDir * 100f);
         bool usingDesk = character.Stats.GetUsingDesk();
-        float deskDist = 0;
-        float playerDist = 0;
+        float deskDist = 5000f;
+        float playerDist = 5000f;
         bool hasPlayer = false;
         bool hasDesk = false;
         if (!usingDesk)
@@ -69,7 +69,7 @@ public class BossMoveController : NpcMoveController
             {
                 if (deskDist > playerDist)
                 {
-                    SetDirection(deskDir);
+                    SetDirection(playerDir);
                 }
                 else
                 {
