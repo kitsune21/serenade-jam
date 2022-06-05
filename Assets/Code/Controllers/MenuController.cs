@@ -120,16 +120,4 @@ public class MenuController : MonoBehaviour
         mc.fadeInClip("day-5");
         energyPanel.SetActive(true);
     }
-
-    public void resetWholeGame()
-    {
-        SceneManager.LoadScene(0);
-    }
-
-    public void gameOver()
-    {
-        int score = (int)clockPanel.GetComponent<TimeController>().totalTime();
-        gameOverPanel.SetActive(true);
-        finalScore.text = "Your Score: " + score.ToString();
-    }
 }

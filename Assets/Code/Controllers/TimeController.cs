@@ -8,13 +8,14 @@ using Time = UnityEngine.Time;
 
 public class TimeController : MonoBehaviour {
 
+	public TMP_Text Clock;
 	private float _timer = 0f;
 	private int _hours = 9;
 	private int _minutes = 0;
 	private bool _clockTick = true;
 
     void Start() {
-	    //Clock.text = string.Format("{0:00}:{1:00}", _hours, _minutes);
+	    Clock.text = string.Format("{0:00}:{1:00}", _hours, _minutes);
     }
 
     void Update() {
@@ -30,7 +31,7 @@ public class TimeController : MonoBehaviour {
 					_minutes = 0;
 					_hours++;
 					if (_hours == 5) {
-						
+						Clock.color = Color.red;
 					}
 					if (_hours == 13) {
 						_hours = 1;
@@ -42,10 +43,6 @@ public class TimeController : MonoBehaviour {
 	    else {
 		    _clockTick = false;
 	    }
-    }
-
-	public float totalTime()
-    {
-		return _timer / 60f;
+	    Clock.text = string.Format("{0:00}:{1:00}", _hours, _minutes);
     }
 }
