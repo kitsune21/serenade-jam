@@ -68,12 +68,20 @@ public static class SpeechPrompts {
 		"What a jerk!"
 	};
 
-	private static readonly List<string> GeneralResponses = new List<string>(){
+	public static readonly List<string> GeneralResponses = new List<string>(){
 		{"Cool story"},
 		{"I could go for some pizza."},
 		{"Tomatoes make great weapons when water balloons aren't available."},
 		{"Neat."},
 		{"You're the Bee's Knees!"}
+	};
+
+	public static readonly List<string> BadReactions = new List<string>() {
+		{"Don't you have something better to do?"},
+		{"Ew"},
+		{"So.....yeah....I guess"},
+		{"Why are you talking to me?"},
+		{"......."}
 	};
 
 	public static readonly Dictionary<string, List<string>> JokesPrompts = new Dictionary<string, List<string>>() {

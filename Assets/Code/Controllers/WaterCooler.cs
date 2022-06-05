@@ -155,7 +155,8 @@ public class WaterCooler : MonoBehaviour {
 		if (SpeechPrompts.Categories[cat][prompt].Contains(playerResponse)) {
 			SetNpcText("Good job!");
 		} else {
-			SetNpcText("Booo!");
+			string reaction = SpeechPrompts.BadReactions[Random.Range(0, SpeechPrompts.BadReactions.Count)];
+			SetNpcText(reaction);
 		}
 
 		prompts.Remove(prompt);

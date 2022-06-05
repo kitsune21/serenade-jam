@@ -33,7 +33,12 @@ public class NpcDialogue : MonoBehaviour
 
         for(var i = 0; i < 2; i++) {
             var cat = categories[Random.Range(0, categories.Count)];
-            if (!pickedCats.Contains(cat) && cat != "General") {
+            if (!pickedCats.Contains(cat)) {
+
+                if (cat == "General") {
+                    i--;
+                    continue;
+                }
                 pickedCats.Add(cat);
 
                 var NpcChoices = new List<string>();
