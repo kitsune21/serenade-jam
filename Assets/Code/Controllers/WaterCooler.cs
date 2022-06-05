@@ -8,44 +8,55 @@ public class WaterCooler : MonoBehaviour {
 
 	public Text NpcText;
 	public Text PlayerText;
+	public GameObject TextPanel;
 	public GameObject ResponsePanel;
+	public GameObject TestingPanel;
 	public Button ResponseButton;
 	public Button CategoryButton;
 	public Button BackButton;
+	public PlayerKnownDialogue player;
+	public NpcDialogue Npc;
 	private List<Button> PanelButtons = new List<Button>();
 	private string prompt;
 	private string playerResponse;
+	private string playerCategory;
+	private string npcCategory;
+	private Dictionary<string, List<string>> prompts;
 
-    // this will change with more prompts
-    private Dictionary<string, List<string>> prompts = SpeechPrompts.SportsPrompts;
+	public void OpenWaterCooler() {
+		TextPanel.SetActive(true);
+		ResponsePanel.SetActive(true);
+		TestingPanel.SetActive(false);
+		prompts = new Dictionary<string, List<string>>(Npc.prompts);
+		NpcPrompt();
+	}
 
-    // this will come from the Player controller
-    private static readonly List<string> knownSportsResponses = new List<string>() {
-	    "Football",
-	    "Ah yes, I sports talk",
-		"Nay brother. I donteth.",
-	    "It was ludicrous"
-    };
-
-    private static readonly List<string> knownGeneralResponses = new List<string>() {
-	    "Cool story.",
-	    "I could go for some pizza.",
-	    "Neat."
-    };
-
-    private readonly Dictionary<string, List<string>> knownResponses = new Dictionary<string, List<string>>() {
-	    {"Sports", knownSportsResponses},
-	    {"General", knownGeneralResponses}
-    };
+	private void Close() {
+		RemoveButtonsFromPanel();
+        TextPanel.SetActive(false);
+        ResponsePanel.SetActive(false);
+		TestingPanel.SetActive(true);
+    }
 
     private void Start() {
-	    NpcPrompt();
+	    TextPanel.SetActive(false);
+		ResponsePanel.SetActive(false);
+		player.LearnPrompt("Did you see that ludicrous display last night?");
+        player.LearnPrompt("Do you know if Brian is dating anyone?");
+        player.LearnPrompt("Someone walks into a bar.");
     }
+
+	private void Update() {
+		if (Input.GetKeyDown(KeyCode.Escape)){
+			Close();
+		}
+	}
 
     private void NpcPrompt() {
 	    List<string> npcPrompts = new List<string>();
 	    if (prompts.Count == 0) {
-			SetNpcText("All Done!");
+			string exit = SpeechPrompts.Exits[Random.Range(0, SpeechPrompts.Exits.Count)];
+			SetNpcText(exit);
 			return;
 	    }
 
@@ -63,6 +74,7 @@ public class WaterCooler : MonoBehaviour {
 
     private void SetNpcText(string text) {
 	    NpcText.text = text;
+		player.LearnPrompt(text);
     }
 
     private void SetPlayerText(string text) {
@@ -71,7 +83,7 @@ public class WaterCooler : MonoBehaviour {
 
 	private List<string> GetResponseCategories() {
 	    var responseCategories = new List<string>();
-	    foreach (var c in knownResponses.Keys) {
+	    foreach (var c in player.knownResponses.Keys) {
 		    responseCategories.Add(c);
 	    }
 
@@ -83,27 +95,30 @@ public class WaterCooler : MonoBehaviour {
 		    Button response = Instantiate(buttonType, ResponsePanel.transform) as Button;
 		    response.GetComponentInChildren<Text>().text = r;
 		    response.GetComponent<ButtonScript>().ButtonText = r;
+			response.GetComponent<ButtonScript>().SpeechType = "response";
 		    PanelButtons.Add(response);
 	    }
 
 	    if (buttonType == ResponseButton) {
 		    Button back = Instantiate(BackButton, ResponsePanel.transform) as Button;
 		    back.GetComponentInChildren<Text>().text = "Back";
+			back.GetComponent<ButtonScript>().SpeechType = "response";
 		    PanelButtons.Add(back);
 	    }
     }
 
     public void OpenCategory(GameObject category) {
 	    string cat = category.GetComponent<ButtonScript>().ButtonText;
+		playerCategory = cat;
 
 	    RemoveButtonsFromPanel();
 
-	    InstantiateButtons(knownResponses[cat], ResponseButton);
+	    InstantiateButtons(player.knownResponses[cat], ResponseButton);
     }
 
 	public void HandleBack() {
-		Debug.Log("Handle Back");
 		RemoveButtonsFromPanel();
+		playerCategory = null;
 		InstantiateButtons(GetResponseCategories(), CategoryButton);
     }
 
@@ -118,10 +133,26 @@ public class WaterCooler : MonoBehaviour {
 		StartCoroutine(CheckResponse());
     }
 
+	private string GetCategory(string prompt) {
+		foreach(var c in SpeechPrompts.Categories) {
+			if (c.Value.ContainsKey(prompt)){
+				return c.Key;
+			}
+		}
+
+		return "null";
+	}
+
 	IEnumerator CheckResponse() {
 		yield return new WaitForSeconds(1);
 
-		if (SpeechPrompts.SportsPrompts[prompt].Contains(playerResponse)) {
+		string cat = GetCategory(prompt);
+
+		if (cat == "null") {
+			Debug.Log("Something when horribly wrong.");
+		}
+
+		if (SpeechPrompts.Categories[cat][prompt].Contains(playerResponse)) {
 			SetNpcText("Good job!");
 		} else {
 			SetNpcText("Booo!");
