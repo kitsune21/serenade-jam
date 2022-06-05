@@ -128,15 +128,6 @@ public class CharacterMoveModel : MonoBehaviour
         return m_IsFrozen;
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.CompareTag("Teleport"))
-        {
-            SetFrozen(true);
-            StartCoroutine(TimedUnFreeze(1f));
-        }
-    }
-
     public void ToggleCursorControl()
     {
         Cursor.visible = !Cursor.visible;

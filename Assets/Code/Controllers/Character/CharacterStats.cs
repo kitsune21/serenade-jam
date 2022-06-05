@@ -27,7 +27,6 @@ public class CharacterStats : MonoBehaviour
             changePerSecond *= -1;
         }
         energy = Mathf.Clamp(energy + changePerSecond * Time.deltaTime, 0, maxEnergy);
-        Debug.Log("Energy:" + energy + " - Energy Modifier:" + changePerSecond + " - Having Fun:" + isHavingFun);
     }
 
     public void SetEnergy(float amount)

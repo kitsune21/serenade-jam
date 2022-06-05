@@ -4,13 +4,10 @@ using System.Collections;
 public class NpcMoveController : ActorMoveBaseControl
 {
     private float timeToAct;
-    private int dir = 1;
-    public enum Direction
-    {
-        Horizontal,
-        Vertical
-    };
-    public Direction direction;
+    private float timeToWait = .5f;
+    private int currentNode = 0;
+    public GameObject[] nodes;
+    private bool goingToDestination = true;
     public int distance = 5;
 
     // Use this for initialization
@@ -23,44 +20,68 @@ public class NpcMoveController : ActorMoveBaseControl
     void Update()
     {
         UpdateDirection();
+        
     }
 
     void UpdateDirection()
     {
     }
 
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (nodes[currentNode] == col.gameObject)
+        {
+            if (goingToDestination)
+            {
+                currentNode += 1;
+                if (currentNode >= nodes.Length)
+                {
+                    currentNode = nodes.Length - 2;
+                    goingToDestination = false;
+                    timeToWait = 2f;
+                }
+            } else
+            {
+                currentNode -= 1;
+                if (currentNode < 0)
+                {
+                    currentNode = 1;
+                    goingToDestination = true;
+                    timeToWait = 2f;
+                }
+            }
+        }
+    }
+
     IEnumerator Walk()
     {
+        if (timeToWait > .5f)
+        {
+            timeToWait = .5f;
+        }
         Vector2 newDirection = Vector2.zero;
-        // inclusive min but exclusive max, so use max of 2
-        if (dir == 1)
-        {
-            dir = -1;
-        }
-        else
-        {
-            dir = 1;
-        }
-        if (direction.ToString() == "Horizontal")
-        {
-            newDirection.y = 0;
-            newDirection.x = dir;
-        }
-        else
-        {
-            newDirection.y = dir;
-            newDirection.x = 0;
-        }
+        Vector2 npc = transform.position;
+        Vector2 firstNode = nodes[currentNode].transform.position;
+        newDirection = (firstNode - npc).normalized;
         timeToAct = distance * .1f;
         SetDirection(newDirection);
         yield return new WaitForSeconds(timeToAct);
-        StartCoroutine(Wait());
+        if (currentNode >= nodes.Length)
+        {
+            StartCoroutine(Wait());
+        }
+        else
+        {
+            StartCoroutine(Wait());
+        }
     }
 
     IEnumerator Wait()
     {
         SetDirection(Vector2.zero);
-        timeToAct = Random.Range(.5f, .75f);
+        float waitMax = timeToWait * 1.5f;
+        timeToAct = Random.Range(timeToWait, waitMax);
+        Debug.Log(waitMax);
         yield return new WaitForSeconds(timeToAct);
         StartCoroutine(Walk());
     }
