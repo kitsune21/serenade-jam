@@ -7,7 +7,8 @@ public class EnergyBarScript : MonoBehaviour
 {
     public Slider EnergyBar;
     public CharacterStats Energy;
-    public Text EnergyText;
+    public MenuController menu;
+    public TimeController timer;
 
     // Start is called before the first frame update
     void Start()
@@ -20,10 +21,9 @@ public class EnergyBarScript : MonoBehaviour
     {
         float currEnergy =  Energy.GetEnergy();
         EnergyBar.value = currEnergy / 100f;
-        EnergyText.text = currEnergy.ToString();
 
         if (currEnergy == 0) {
-            Debug.Log("You Lost");
+            menu.gameOver();
         }
     }
 }

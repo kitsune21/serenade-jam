@@ -45,4 +45,10 @@ public class TimeController : MonoBehaviour {
 	    }
 	    Clock.text = string.Format("{0:00}:{1:00}", _hours, _minutes);
     }
+
+	public float totalTime()
+    {
+		return _timer / 60f;
+    }
+
 }
