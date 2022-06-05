@@ -7,6 +7,7 @@ public class NpcMoveController : ActorMoveBaseControl
     private float timeToWait = .5f;
     private int currentNode = 0;
     private bool canTalk = false;
+    private bool isAtDesk = false;
     private bool isTalking = false;
     public GameObject[] nodes;
     private bool goingToDestination = true;
@@ -48,6 +49,8 @@ public class NpcMoveController : ActorMoveBaseControl
                 {
                     currentNode = 1;
                     goingToDestination = true;
+                    canTalk = true;
+                    isAtDesk = true;
                     timeToWait = 2f;
                 }
             }
@@ -57,6 +60,11 @@ public class NpcMoveController : ActorMoveBaseControl
     public bool GetCanTalk()
     {
         return canTalk;
+    }
+
+    public bool IsAtDesk()
+    {
+        return isAtDesk;
     }
 
     public void SetIsTalking(bool newIsTalking)
@@ -73,6 +81,7 @@ public class NpcMoveController : ActorMoveBaseControl
         if (timeToWait > .5f)
         {
             canTalk = false;
+            isAtDesk = false;
             timeToWait = .5f;
         }
         Vector2 newDirection = Vector2.zero;
