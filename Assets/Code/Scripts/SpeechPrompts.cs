@@ -8,7 +8,7 @@ public static class SpeechPrompts {
 		"I just remembered I have to go do my business work.",
 		"Look! The boss is coming!",
 		"I think I forgot something on my desk... Goodbye.",
-		"I just remembered I have a hair doector appointment... Bye.",
+		"I just remembered I have a hair doctor appointment... Bye.",
 		"Oh! Look at the time. I should be going now.",
 		"Sorry. I need to go iron my neck tie."
 	};
@@ -18,6 +18,13 @@ public static class SpeechPrompts {
 		"Ah yes. I sports talk.",
 		"It was ludicrous.",
 		"What were they thinking? Sending in Tommie Irmstrong?"
+	};
+
+	private static readonly List<string> YesNo = new List<string>() {
+		"Not a chance",
+		"Absolutely!",
+		"Maybe?",
+		"Only if the one thing happens to the one person."
 	};
 
 	private static readonly List<string> LudicrousResponses = new List<string>() {
@@ -61,6 +68,14 @@ public static class SpeechPrompts {
 		"What a jerk!"
 	};
 
+	private static readonly List<string> GeneralResponses = new List<string>(){
+		{"Cool story"},
+		{"I could go for some pizza."},
+		{"Tomatoes make great weapons when water balloons aren't available."},
+		{"Neat."},
+		{"You're the Bee's Knees!"}
+	};
+
 	public static readonly Dictionary<string, List<string>> JokesPrompts = new Dictionary<string, List<string>>() {
 		{"What did the Ocean say to the Beach?", new List<string>(){"Nothing, it just waved."}},
 		{"Someone walks into a bar.", new List<string>(){"Ouch."}},
@@ -78,20 +93,25 @@ public static class SpeechPrompts {
 	};
 
 	public static readonly Dictionary<string, List<string>> SportsPrompts = new Dictionary<string, List<string>>() {
-		{"Did you see that ludicrous display last night? ", LudicrousResponses},
+		{"Did you see that ludicrous display last night?", LudicrousResponses},
 		{"Did you catch the game last night?", GenericSports},
 		{"What's your favorite sports team?", FavTeam},
 		{"What sports do you like?", LikedSports},
 		{"Did you see Steve McDichael's ludicrous display last night?", LudicrousResponses},
-		{"Do you think the \"Chubby Horses\" will win tonight?", GenericSports},
+		{"Do you think the \"Chubby Horses\" will win tonight?", YesNo},
 		{"Bro, do you even lift?", Lift},
 		{"Brother! Doth thou even hoist?", Hoist}
+	};
+
+	public static readonly Dictionary<string, List<string>> GeneralPrompts = new Dictionary<string, List<string>>() {
+		{"null", GeneralResponses}
 	};
 
 	public static readonly Dictionary<string, Dictionary<string, List<string>> > Categories = new Dictionary<string, Dictionary<string, List<string>> > {
 		{"Sports", SportsPrompts},
 		{"Gossip", GossipPrompts},
-		{"Jokes", JokesPrompts}
+		{"Jokes", JokesPrompts},
+		{"General", GeneralPrompts}
 	};
 
 }

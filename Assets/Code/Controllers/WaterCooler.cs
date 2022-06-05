@@ -8,49 +8,49 @@ public class WaterCooler : MonoBehaviour {
 
 	public Text NpcText;
 	public Text PlayerText;
+	public GameObject TextPanel;
 	public GameObject ResponsePanel;
+	public GameObject TestingPanel;
 	public Button ResponseButton;
 	public Button CategoryButton;
 	public Button BackButton;
-	public PlayerKnownResponses player;
+	public PlayerKnownDialogue player;
+	public NpcDialogue Npc;
 	private List<Button> PanelButtons = new List<Button>();
 	private string prompt;
 	private string playerResponse;
+	private string playerCategory;
+	private string npcCategory;
+	private Dictionary<string, List<string>> prompts;
 
-    // this comes from npcs?
-    private Dictionary<string, List<string>> prompts = new Dictionary<string, List<string>>();
-
-	private void CreatePrompts() {
-		var categories = new List<string>();
-
-		foreach(var c in SpeechPrompts.Categories.Keys) {
-			categories.Add(c);
-		}
-
-		var cat = categories[Random.Range(0, categories.Count)];
-
-		var NpcChoices = new List<string>();
-		var chosenCat = SpeechPrompts.Categories[cat];
-
-		foreach(var p in chosenCat.Keys){
-			NpcChoices.Add(p);
-		}
-
-		int count = NpcChoices.Count;
-
-		for (var i = 0; i < count / 2; i++) {
-			var prompt = NpcChoices[Random.Range(0, NpcChoices.Count)];
-			prompts.Add(prompt, chosenCat[prompt]);
-			NpcChoices.Remove(prompt);
-		}
+	public void OpenWaterCooler() {
+		TextPanel.SetActive(true);
+		ResponsePanel.SetActive(true);
+		TestingPanel.SetActive(false);
+		prompts = new Dictionary<string, List<string>>(Npc.prompts);
+		NpcPrompt();
 	}
 
-    private void Start() {
-		CreatePrompts();
-
-
-	    NpcPrompt();
+	private void Close() {
+		RemoveButtonsFromPanel();
+        TextPanel.SetActive(false);
+        ResponsePanel.SetActive(false);
+		TestingPanel.SetActive(true);
     }
+
+    private void Start() {
+	    TextPanel.SetActive(false);
+		ResponsePanel.SetActive(false);
+		player.LearnPrompt("Did you see that ludicrous display last night?");
+        player.LearnPrompt("Do you know if Brian is dating anyone?");
+        player.LearnPrompt("Someone walks into a bar.");
+    }
+
+	private void Update() {
+		if (Input.GetKeyDown(KeyCode.Escape)){
+			Close();
+		}
+	}
 
     private void NpcPrompt() {
 	    List<string> npcPrompts = new List<string>();
@@ -95,18 +95,21 @@ public class WaterCooler : MonoBehaviour {
 		    Button response = Instantiate(buttonType, ResponsePanel.transform) as Button;
 		    response.GetComponentInChildren<Text>().text = r;
 		    response.GetComponent<ButtonScript>().ButtonText = r;
+			response.GetComponent<ButtonScript>().SpeechType = "response";
 		    PanelButtons.Add(response);
 	    }
 
 	    if (buttonType == ResponseButton) {
 		    Button back = Instantiate(BackButton, ResponsePanel.transform) as Button;
 		    back.GetComponentInChildren<Text>().text = "Back";
+			back.GetComponent<ButtonScript>().SpeechType = "response";
 		    PanelButtons.Add(back);
 	    }
     }
 
     public void OpenCategory(GameObject category) {
 	    string cat = category.GetComponent<ButtonScript>().ButtonText;
+		playerCategory = cat;
 
 	    RemoveButtonsFromPanel();
 
@@ -115,6 +118,7 @@ public class WaterCooler : MonoBehaviour {
 
 	public void HandleBack() {
 		RemoveButtonsFromPanel();
+		playerCategory = null;
 		InstantiateButtons(GetResponseCategories(), CategoryButton);
     }
 
@@ -129,10 +133,26 @@ public class WaterCooler : MonoBehaviour {
 		StartCoroutine(CheckResponse());
     }
 
+	private string GetCategory(string prompt) {
+		foreach(var c in SpeechPrompts.Categories) {
+			if (c.Value.ContainsKey(prompt)){
+				return c.Key;
+			}
+		}
+
+		return "null";
+	}
+
 	IEnumerator CheckResponse() {
 		yield return new WaitForSeconds(1);
 
-		if (prompts[prompt].Contains(playerResponse)) {
+		string cat = GetCategory(prompt);
+
+		if (cat == "null") {
+			Debug.Log("Something when horribly wrong.");
+		}
+
+		if (SpeechPrompts.Categories[cat][prompt].Contains(playerResponse)) {
 			SetNpcText("Good job!");
 		} else {
 			SetNpcText("Booo!");

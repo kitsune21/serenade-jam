@@ -4,16 +4,31 @@ using UnityEngine;
 
 public class ButtonScript : MonoBehaviour {
 	[HideInInspector] public string ButtonText;
+	[HideInInspector] public string SpeechType;
 
 	public void Select() {
 		FindObjectOfType<WaterCooler>().MakeResponse(gameObject);
 	}
 
 	public void OpenCategory() {
-		FindObjectOfType<WaterCooler>().OpenCategory(gameObject);
+		if (SpeechType == "response") {
+			FindObjectOfType<WaterCooler>().OpenCategory(gameObject);
+		} else {
+			FindObjectOfType<NpcDialogue>().OpenCategory(gameObject);
+		}
+		
 	}
 
 	public void HandleBack() {
-		FindObjectOfType<WaterCooler>().HandleBack();
+		if (SpeechType == "response") {
+			FindObjectOfType<WaterCooler>().HandleBack();
+		} else {
+			FindObjectOfType<NpcDialogue>().HandleBack();
+		}
+		
+	}
+
+	public void MakePrompt() {
+		FindObjectOfType<NpcDialogue>().MakePrompt(gameObject);
 	}
 }

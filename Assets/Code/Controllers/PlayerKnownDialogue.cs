@@ -4,20 +4,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerKnownResponses : MonoBehaviour {
+public class PlayerKnownDialogue : MonoBehaviour {
 	
-    public static List<string> knownSportsResponses = new List<string>() {
-	    "Football",
-	    "Ah yes, I sports talk",
-		"Nay brother. I donteth.",
-	    "It was ludicrous"
-    };
+    public static List<string> knownSportsResponses = new List<string>();
 
-    public static List<string> knownGeneralResponses = new List<string>() {
-	    "Cool story.",
-	    "I could go for some pizza.",
-	    "Neat."
-    };
+    public static List<string> knownGeneralResponses = new List<string>();
 
 	public static List<string> knownGossipResponses = new List<string>();
 
@@ -46,7 +37,6 @@ public class PlayerKnownResponses : MonoBehaviour {
 	
 	};
 
-
 	public void LearnPrompt(string prompt) {
 		
 		foreach(var cat in SpeechPrompts.Categories) {
@@ -61,13 +51,13 @@ public class PlayerKnownResponses : MonoBehaviour {
 	}
 
 	public void LearnResponse(string response) {
-		
 		foreach(var cat in SpeechPrompts.Categories) {
-			if (cat.Value.ContainsKey(response)){
-				var category = cat.Key;
-
-				if (!knownResponses[category].Contains(response)) {
-				knownResponses[category].Add(response);
+			var category = cat.Key;
+			foreach(var prompt in cat.Value) {
+				if (prompt.Value.Contains(response)){
+					if (!knownResponses[category].Contains(response)) {
+						knownResponses[category].Add(response);
+					}
 				}
 			}
 		}
