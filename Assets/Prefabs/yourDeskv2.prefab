@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3224761741997586128}
   - component: {fileID: 5982822834405881501}
+  - component: {fileID: 8669248436443306068}
   m_Layer: 4
   m_Name: yourDeskv2
   m_TagString: Untagged
@@ -82,3 +83,39 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &8669248436443306068
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684395357217166546}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.6875, y: 4.6875}
+    newSize: {x: 4.6875, y: 4.6875}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -1.6173897, y: 1.0238001}
+      - {x: -1.5785294, y: -0.14183903}
+      - {x: -0.8883233, y: 0.18836308}
+      - {x: -0.53020525, y: 0.047465324}
+      - {x: -0.11669707, y: 0.16339254}
+      - {x: 0.94997215, y: -0.43555355}
+      - {x: 1.0124651, y: -1.4718261}
+      - {x: 1.8324149, y: -1.0990934}
+      - {x: 2.0915558, y: -0.941699}
+      - {x: 1.9878557, y: 0.25534296}
+      - {x: -0.5616908, y: 1.5030761}
