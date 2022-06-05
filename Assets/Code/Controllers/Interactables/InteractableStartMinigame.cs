@@ -7,6 +7,7 @@ public class InteractableStartMinigame : Interactable
     private int currentText = 0;
     NpcMoveController m_MoveController;
     private bool canTalk = true;
+    private bool isAtDesk = false;
 
     void Awake()
     {
