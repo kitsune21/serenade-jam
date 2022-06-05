@@ -14,9 +14,9 @@ public class BlasteroidsController : MonoBehaviour
     private int leftRightBound = 12;
     private int topBottomBound = 8;
     private float spawnTimer;
-    private float spawnTimerMax = 0.34f;
+    private float spawnTimerMax = 0.31f;
     private float laserTimer;
-    private float laserTimerMax = 0.5f;
+    private float laserTimerMax = 0.75f;
     private bool canShoot;
     private List<GameObject> asteroidList = new List<GameObject>();
     public Text scoreText;
@@ -31,6 +31,7 @@ public class BlasteroidsController : MonoBehaviour
     public Camera myCamera;
     public Canvas myCanvas;
     public GameObject phoneImage;
+    public GameObject dragIcon;
     public GameObject mainCanvas;
     private GraphicRaycaster raycaster;
     private PointerEventData clickData;
@@ -49,8 +50,9 @@ public class BlasteroidsController : MonoBehaviour
     public Slider loadingBar;
     public bool readyToPlay = false;
 
-    
-    // Start is called before the first frame update
+    public Sprite asteroid1;
+    public Sprite asteroid2;
+
     void Start()
     {
         myCamera.gameObject.SetActive(false);
@@ -69,7 +71,6 @@ public class BlasteroidsController : MonoBehaviour
         clickedElements = new List<GameObject>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         mouseDragUi();
@@ -137,8 +138,9 @@ public class BlasteroidsController : MonoBehaviour
                 }
                 GameObject tempAsteroid = Instantiate(asteroid, spawnPoint, transform.rotation, transform);
                 tempAsteroid.GetComponent<AsteroidController>().bc = this;
-                tempAsteroid.GetComponent<AsteroidController>().speed = Random.Range(0.6f, 2.8f);
+                tempAsteroid.GetComponent<AsteroidController>().speed = Random.Range(0.6f, 2.9f);
                 tempAsteroid.GetComponent<AsteroidController>().rotate(player.transform.rotation);
+                tempAsteroid.GetComponent<AsteroidController>().selectSprite(asteroid1, asteroid2);
                 asteroidList.Add(tempAsteroid);
             }
         }
@@ -215,6 +217,7 @@ public class BlasteroidsController : MonoBehaviour
         loadingBar.value = 0;
         loadingPanel.SetActive(false);
         readyToPlay = false;
+        dragIcon.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0);
     }
 
     public void resetGame() {
@@ -239,6 +242,7 @@ public class BlasteroidsController : MonoBehaviour
         musicController.endLoop();
         loadingPanel.SetActive(true);
         soundController.playEffect("click");
+        Debug.Log("test");
     }
 
     private void waitTillVamp()
@@ -260,6 +264,7 @@ public class BlasteroidsController : MonoBehaviour
             myCamera.gameObject.SetActive(true);
             myCanvas.gameObject.SetActive(true);
             phoneImage.SetActive(true);
+            dragIcon.transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 180);
             startPanel.SetActive(true);
             musicController.loopClip("blasteroids-vamp");
             readyToPlay = true;
