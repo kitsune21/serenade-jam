@@ -12,6 +12,7 @@ public class NpcMoveController : ActorMoveBaseControl
     public GameObject[] nodes;
     private bool goingToDestination = true;
     public int distance = 5;
+    public bool isTheBoss = false;
 
     // Use this for initialization
     void Start()
@@ -32,6 +33,7 @@ public class NpcMoveController : ActorMoveBaseControl
     {
         if (nodes[currentNode] == col.gameObject)
         {
+            SetDirection(Vector2.zero);
             if (goingToDestination)
             {
                 currentNode += 1;
@@ -86,8 +88,8 @@ public class NpcMoveController : ActorMoveBaseControl
         }
         Vector2 newDirection = Vector2.zero;
         Vector2 npc = transform.position;
-        Vector2 firstNode = nodes[currentNode].transform.position;
-        newDirection = (firstNode - npc).normalized;
+        Vector2 nextNode = nodes[currentNode].transform.position;
+        newDirection = (nextNode - npc).normalized;
         timeToAct = distance * .1f;
         SetDirection(newDirection);
         yield return new WaitForSeconds(timeToAct);
@@ -101,7 +103,17 @@ public class NpcMoveController : ActorMoveBaseControl
         }
     }
 
-    IEnumerator Wait()
+    public void SetCurrentNode(int newNode)
+    {
+        currentNode = newNode;
+    }
+
+    public int GetCurrentNode()
+    {
+        return currentNode;
+    }
+
+    public IEnumerator Wait()
     {
         SetDirection(Vector2.zero);
         float waitMax = timeToWait * 1.5f;
