@@ -23,6 +23,7 @@ public class MenuController : MonoBehaviour
     public GameObject menuPanels;
     public GameObject clockPanel;
     public GameObject phone;
+    public GameObject energyPanel;
 
     private bool waitForSound = false;
     private float soundVolumeTimer;
@@ -117,5 +118,6 @@ public class MenuController : MonoBehaviour
         clockPanel.SetActive(true);
         phone.SetActive(true);
         mc.fadeInClip("day-5");
+        energyPanel.SetActive(true);
     }
 }
