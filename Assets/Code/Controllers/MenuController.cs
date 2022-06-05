@@ -26,6 +26,8 @@ public class MenuController : MonoBehaviour
     public GameObject phone;
     public GameObject gameOverPanel;
     public Text finalScore;
+    public GameObject energyPanel;
+
 
     private bool waitForSound = false;
     private float soundVolumeTimer;
@@ -120,6 +122,7 @@ public class MenuController : MonoBehaviour
         clockPanel.SetActive(true);
         phone.SetActive(true);
         mc.fadeInClip("day-5");
+        energyPanel.SetActive(true);
     }
 
     public void resetWholeGame()

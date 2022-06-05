@@ -10,7 +10,7 @@ public class WaterCooler : MonoBehaviour {
 	public Text PlayerText;
 	public GameObject TextPanel;
 	public GameObject ResponsePanel;
-	public GameObject TestingPanel;
+	// public GameObject TestingPanel;
 	public Button ResponseButton;
 	public Button CategoryButton;
 	public Button BackButton;
@@ -23,19 +23,19 @@ public class WaterCooler : MonoBehaviour {
 	private string npcCategory;
 	private Dictionary<string, List<string>> prompts;
 
-	public void OpenWaterCooler() {
+	public void startWaterCooler() {
 		TextPanel.SetActive(true);
 		ResponsePanel.SetActive(true);
-		TestingPanel.SetActive(false);
+		// TestingPanel.SetActive(false);
 		prompts = new Dictionary<string, List<string>>(Npc.prompts);
 		NpcPrompt();
 	}
 
-	private void Close() {
+	private void stopWaterCooler() {
 		RemoveButtonsFromPanel();
         TextPanel.SetActive(false);
         ResponsePanel.SetActive(false);
-		TestingPanel.SetActive(true);
+		// TestingPanel.SetActive(true);
     }
 
     private void Start() {
@@ -48,7 +48,7 @@ public class WaterCooler : MonoBehaviour {
 
 	private void Update() {
 		if (Input.GetKeyDown(KeyCode.Escape)){
-			Close();
+			stopWaterCooler();
 		}
 	}
 

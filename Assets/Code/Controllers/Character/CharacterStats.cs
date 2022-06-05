@@ -21,12 +21,22 @@ public class CharacterStats : MonoBehaviour
     void FixedUpdate()
     {
         float oldChange = changePerSecond;
-        changePerSecond = 0.0001f * Mathf.Pow(energy, 2);
-        if (!isHavingFun)
-        {
-            changePerSecond *= -1;
+        changePerSecond = energyModifier * Mathf.Sqrt(energy);
+        dynamicEnergyMod();
+        if (energyModifier <= 0) {
+            isHavingFun = false;
         }
         energy = Mathf.Clamp(energy + changePerSecond * Time.deltaTime, 0, maxEnergy);
+    }
+
+    private void dynamicEnergyMod() {
+        float mod = GetEnergyModifier();
+        if (isHavingFun) {
+            mod -= .0015f;
+        } else {
+            mod -= .001f;
+        }
+        SetEnergyModifier(mod);
     }
 
     public void SetEnergy(float amount)
