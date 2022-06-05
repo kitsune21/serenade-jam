@@ -6,6 +6,11 @@ public class AsteroidController : MonoBehaviour
 {
     public BlasteroidsController bc;
     public float speed;
+
+    public void rotate(Quaternion rotation)
+    {
+        transform.rotation = rotation;
+    }
     
     void Update() {
         badCollisionChecker();

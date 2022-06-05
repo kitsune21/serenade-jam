@@ -18,6 +18,7 @@ public class MusicController : MonoBehaviour
     public AudioClip day5Main;
     public AudioClip mainMenu;
     public AudioClip waterCooler;
+    public AudioClip typing;
 
     private string clipString;
     private string mainClip = "day-5";
@@ -63,7 +64,7 @@ public class MusicController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!audioPlayer.isPlaying)
+        if(!audioPlayer.isPlaying && (clipString != "blasteroids-vamp" || clipString != "blasteroids-main"))
         {
             fadeInClip(mainClip);
         }
@@ -73,6 +74,9 @@ public class MusicController : MonoBehaviour
             bgAudioPlayer.volume = 0;
             bgAudioPlayer.Play();
             bgAudioPlayer.loop = true;
+        } else if(clipString != "day-5")
+        {
+            bgAudioPlayer.Stop();
         }
     }
 
@@ -97,6 +101,10 @@ public class MusicController : MonoBehaviour
         if(clip == "water-cooler")
         {
             return waterCooler;
+        }
+        if(clip == "typing")
+        {
+            return typing;
         }
 
         return null;
@@ -160,5 +168,12 @@ public class MusicController : MonoBehaviour
     public void fadeInBg()
     {
         bgFadeIn = true;
+    }
+
+    public void turnOffBg()
+    {
+        bgFadeIn = false;
+        bgCurrentVolume = 0;
+        bgAudioPlayer.volume = bgCurrentVolume;
     }
 }
