@@ -15,15 +15,16 @@ public class Typer : MonoBehaviour
 	public float tooFast;
 	public float tooSlow;
 	public GameObject sliderFill;
-	public GameObject tooFastText;
-	public GameObject tooSlowText;
+	public Text warningText;
+	public GameObject panel;
 
 
 
 	private string remainingWord = string.Empty;
 	private string currentWord;
-	private bool gamePaused = false;
-	
+	private bool gamePaused = true;
+
+	public MusicController mc;
 
 
 	private void Start()
@@ -46,28 +47,31 @@ public class Typer : MonoBehaviour
     }
 
     private void FixedUpdate() {
-	    wordCount -= 0.01f;
-	    wordCountText.text = wordCount.ToString();
-	    slider.value = wordCount / 10;
-	    if (wordCount >= tooFast) {
-		    sliderFill.GetComponent<Image>().color = Color.red;
-		    tooFastText.SetActive(true);
-
-
-	    } else if (wordCount <= tooSlow) {
-		    sliderFill.GetComponent<Image>().color = Color.red;
-		    tooSlowText.SetActive(true);
-
-	    }
-	    else {
-		    sliderFill.GetComponent<Image>().color = Color.green;
-		    tooFastText.SetActive(false);
-		    tooSlowText.SetActive(false);
-	    }
+	    if(!gamePaused)
+        {
+			wordCount -= 0.01f;
+			wordCountText.text = wordCount.ToString();
+			slider.value = wordCount / 10;
+			if (wordCount >= tooFast)
+			{
+				sliderFill.GetComponent<Image>().color = Color.red;
+				warningText.text = "Too Fast!!";
+			}
+			else if (wordCount <= tooSlow)
+			{
+				sliderFill.GetComponent<Image>().color = Color.red;
+				warningText.text = "Too Slow!!";
+			}
+			else
+			{
+				sliderFill.GetComponent<Image>().color = Color.green;
+				warningText.text = "";
+			}
+		}
     }
 
     private void Update() {
-	    if (!pause.GamePaused) {
+	    if (!gamePaused) {
 		    CheckInput();
         }
     }
@@ -119,6 +123,24 @@ public class Typer : MonoBehaviour
 
 	    return new string(randomWord);
     }
+
+	public void startTypingGame()
+    {
+		gamePaused = false;
+		mc.fadeInClip("typing");
+		slider.value = 0.5f;
+		SetCurrentWord();
+		wordCountText.text = wordCount.ToString();
+		wordCount = 5;
+		panel.SetActive(true);
+	}
+
+	public void stopTypingGame()
+    {
+		gamePaused = true;
+		mc.stopClip();
+		panel.SetActive(false);
+	}
 
 }
 

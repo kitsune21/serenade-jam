@@ -31,8 +31,6 @@ public class BlasteroidsController : MonoBehaviour
     public Camera myCamera;
     public Canvas myCanvas;
     public GameObject phoneImage;
-    private Vector2 phoneFullyClosed = new Vector2(0, -420);
-    private Vector2 phoneFullyOpen = new Vector2(0, -60);
     public GameObject mainCanvas;
     private GraphicRaycaster raycaster;
     private PointerEventData clickData;
@@ -140,6 +138,7 @@ public class BlasteroidsController : MonoBehaviour
                 GameObject tempAsteroid = Instantiate(asteroid, spawnPoint, transform.rotation, transform);
                 tempAsteroid.GetComponent<AsteroidController>().bc = this;
                 tempAsteroid.GetComponent<AsteroidController>().speed = Random.Range(0.6f, 2.8f);
+                tempAsteroid.GetComponent<AsteroidController>().rotate(player.transform.rotation);
                 asteroidList.Add(tempAsteroid);
             }
         }
