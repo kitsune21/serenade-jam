@@ -8,6 +8,7 @@ public class InteractableStartMinigame : Interactable
     NpcMoveController m_MoveController;
     private bool canTalk = true;
     private bool isAtDesk = false;
+    public Typer typingGame;
 
     void Awake()
     {
@@ -18,7 +19,23 @@ public class InteractableStartMinigame : Interactable
         // are we using the player's desk?
         if (this.gameObject.CompareTag("Player Desk"))
         {
-            character.Stats.SetUsingDesk(true); 
+            if(typingGame.gamePaused)
+            {
+                character.Stats.SetUsingDesk(true);
+                character.Movement.SetFrozen(true);
+                character.Stats.SetHavingFun(isFun);
+                canTalk = false;
+                typingGame.startTypingGame();
+                isAtDesk = true;
+            } else
+            {
+                character.Stats.SetUsingDesk(false);
+                character.Movement.SetFrozen(false);
+                character.Stats.SetHavingFun(false);
+                canTalk = true;
+                typingGame.stopTypingGame();
+                isAtDesk = false;
+            }
         }
         // are we chatting up an NPC?
         if (this.gameObject.CompareTag("NPC"))

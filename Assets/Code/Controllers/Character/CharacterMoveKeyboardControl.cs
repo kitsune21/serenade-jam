@@ -19,7 +19,7 @@ public class CharacterMoveKeyboardControl : CharacterMoveBaseControl
 
     void UpdateAction()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             OnActionPressed();
         }

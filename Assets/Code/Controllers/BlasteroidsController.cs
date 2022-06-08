@@ -48,6 +48,10 @@ public class BlasteroidsController : MonoBehaviour
     public GameObject loadingPanel;
     public Slider loadingBar;
     public bool readyToPlay = false;
+    public Character character;
+
+    public Sprite asteroid1;
+    public Sprite asteroid2;
 
     
     // Start is called before the first frame update
@@ -139,6 +143,13 @@ public class BlasteroidsController : MonoBehaviour
                 tempAsteroid.GetComponent<AsteroidController>().bc = this;
                 tempAsteroid.GetComponent<AsteroidController>().speed = Random.Range(0.6f, 2.8f);
                 tempAsteroid.GetComponent<AsteroidController>().rotate(player.transform.rotation);
+                if(Random.Range(0,2) == 1)
+                {
+                    tempAsteroid.GetComponent<SpriteRenderer>().sprite = asteroid1;
+                } else
+                {
+                    tempAsteroid.GetComponent<SpriteRenderer>().sprite = asteroid2;
+                }
                 asteroidList.Add(tempAsteroid);
             }
         }
@@ -215,6 +226,9 @@ public class BlasteroidsController : MonoBehaviour
         loadingBar.value = 0;
         loadingPanel.SetActive(false);
         readyToPlay = false;
+        character.Stats.SetUsingDesk(false);
+        character.Movement.SetFrozen(false);
+        character.Stats.SetHavingFun(false);
     }
 
     public void resetGame() {
@@ -263,6 +277,9 @@ public class BlasteroidsController : MonoBehaviour
             startPanel.SetActive(true);
             musicController.loopClip("blasteroids-vamp");
             readyToPlay = true;
+            character.Stats.SetUsingDesk(true);
+            character.Movement.SetFrozen(true);
+            character.Stats.SetHavingFun(true);
         }
     }
 

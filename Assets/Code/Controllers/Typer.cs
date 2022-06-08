@@ -22,7 +22,7 @@ public class Typer : MonoBehaviour
 
 	private string remainingWord = string.Empty;
 	private string currentWord;
-	private bool gamePaused = true;
+	public bool gamePaused = true;
 
 	public MusicController mc;
 

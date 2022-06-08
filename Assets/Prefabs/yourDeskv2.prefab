@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3224761741997586128}
   - component: {fileID: 5982822834405881501}
   - component: {fileID: 8669248436443306068}
+  - component: {fileID: 5544964643829666767}
   m_Layer: 4
   m_Name: yourDeskv2
   m_TagString: Untagged
@@ -119,3 +120,17 @@ PolygonCollider2D:
       - {x: 2.0915558, y: -0.941699}
       - {x: 1.9878557, y: 0.25534296}
       - {x: -0.5616908, y: 1.5030761}
+--- !u!114 &5544964643829666767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5684395357217166546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a0aab9a4a08b24c88653cee83a887e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: []
+  isFun: 0
