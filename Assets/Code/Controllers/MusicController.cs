@@ -11,16 +11,10 @@ public class MusicController : MonoBehaviour
     private float bgVolume;
     private float bgCurrentVolume;
     private bool bgFadeIn = false;
-    
-    //songs
-    public AudioClip blasteroidsMain;
-    public AudioClip blasteroidsVamp;
-    public AudioClip day5Main;
-    public AudioClip mainMenu;
-    public AudioClip waterCooler;
-    public AudioClip typing;
 
-    private string clipString;
+    public List<ClipScript> songs = new List<ClipScript>();
+    private ClipScript currentClip;
+
     private string mainClip = "day-5";
 
     public bool isFading = false;
@@ -30,7 +24,7 @@ public class MusicController : MonoBehaviour
     {
         audioPlayer = GetComponent<AudioSource>();
         bgAudioPlayer = gameObject.AddComponent<AudioSource>();
-        fadeInClip("menu");
+        fadeInClip("main-menu");
     }
 
     void Update()
@@ -64,47 +58,30 @@ public class MusicController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!audioPlayer.isPlaying && (clipString != "blasteroids-vamp" || clipString != "blasteroids-main"))
+        if(!audioPlayer.isPlaying && (currentClip.clipName != "blasteroids-vamp" || currentClip.clipName != "blasteroids-main"))
         {
             fadeInClip(mainClip);
         }
-        if(!bgAudioPlayer.isPlaying && clipString == "day-5")
+        if(!bgAudioPlayer.isPlaying && currentClip.clipName == "day-5")
         {
-            bgAudioPlayer.clip = stringToClip("water-cooler");
+            bgAudioPlayer.clip = stringToClip("water-cooler").clip;
             bgAudioPlayer.volume = 0;
             bgAudioPlayer.Play();
             bgAudioPlayer.loop = true;
-        } else if(clipString != "day-5")
+        } else if(currentClip.clipName != "day-5")
         {
             bgAudioPlayer.Stop();
         }
     }
 
-    private AudioClip stringToClip(string clip)
+    private ClipScript stringToClip(string clip)
     {
-        if (clip == "blasteroids-main")
+        foreach(ClipScript song in songs)
         {
-            return blasteroidsMain;
-        }
-        if (clip == "blasteroids-vamp")
-        {
-            return blasteroidsVamp;
-        }
-        if(clip == "day-5")
-        {
-            return day5Main;
-        }
-        if(clip == "menu")
-        {
-            return mainMenu;
-        }
-        if(clip == "water-cooler")
-        {
-            return waterCooler;
-        }
-        if(clip == "typing")
-        {
-            return typing;
+            if(song.clipName == clip)
+            {
+                return song;
+            }
         }
 
         return null;
@@ -112,8 +89,8 @@ public class MusicController : MonoBehaviour
 
     public void loopClip(string clip)
     {
-        clipString = clip;
-        audioPlayer.clip = stringToClip(clip);
+        currentClip = stringToClip(clip);
+        audioPlayer.clip = currentClip.clip;
         audioPlayer.loop = true;
         audioPlayer.Play();
     }
@@ -149,7 +126,7 @@ public class MusicController : MonoBehaviour
 
     public bool isClipPlaying(string clip)
     {
-        if(clip == clipString)
+        if(clip == currentClip.clipName)
         {
             return true;
         } else

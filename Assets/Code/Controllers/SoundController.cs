@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class SoundController : MonoBehaviour
 {
-    public AudioClip laserShot;
-    public AudioClip explosion;
-    public AudioClip select;
-    public AudioClip click;
-    public AudioClip footSteps;
+    public List<ClipScript> fxs = new List<ClipScript>();
+    public List<ClipScript> randomBG = new List<ClipScript>();
 
     private List<AudioSource> audioPlayers;
-    public List<AudioClip> randomBG;
 
     public float volume;
 
@@ -57,23 +53,14 @@ public class SoundController : MonoBehaviour
         }
     }
 
-    private AudioClip stringToClip(string effect)
+    private ClipScript stringToClip(string effect)
     {
-        if(effect == "laser")
+        foreach (ClipScript fx in fxs)
         {
-            return laserShot;
-        }
-        if(effect == "explosion")
-        {
-            return explosion;
-        }
-        if(effect == "select")
-        {
-            return select;
-        }
-        if(effect == "click")
-        {
-            return click;
+            if (fx.clipName == effect)
+            {
+                return fx;
+            }
         }
 
         return null;
@@ -98,7 +85,7 @@ public class SoundController : MonoBehaviour
     public void playEffect(string effect)
     {
         AudioSource availablePlayer = availableSource();
-        availablePlayer.clip = stringToClip(effect);
+        availablePlayer.clip = stringToClip(effect).clip;
         availablePlayer.volume = volume;
         availablePlayer.Play();
     }
@@ -106,7 +93,7 @@ public class SoundController : MonoBehaviour
     public void playFootSteps()
     {
         AudioSource availablePlayer = availableSource();
-        availablePlayer.clip = footSteps;
+        availablePlayer.clip = stringToClip("footsteps").clip;
         availablePlayer.volume = volume;
         availablePlayer.Play();
         availablePlayer.loop = true;
@@ -118,7 +105,7 @@ public class SoundController : MonoBehaviour
         {
             int randomIndex = Random.Range(0, randomBG.Count);
             AudioSource availablePlayer = availableSource();
-            availablePlayer.clip = randomBG[randomIndex];
+            availablePlayer.clip = randomBG[randomIndex].clip;
             availablePlayer.volume = volume;
             availablePlayer.Play();
         }

@@ -1051,16 +1051,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3bae42aa726d744934950f6797a4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserShot: {fileID: 8300000, guid: ff6bb1ab45f5ba842b06c69561fda076, type: 3}
-  explosion: {fileID: 8300000, guid: b5ee4217b0c8a0041a6073d91af62804, type: 3}
-  select: {fileID: 8300000, guid: da7e6ecafc4c2e74e8c02c59a8f4cbeb, type: 3}
-  click: {fileID: 8300000, guid: 88e887e9a2d39ab4a8c1a8a60e88dc65, type: 3}
-  footSteps: {fileID: 8300000, guid: cbcb2c4dfeb491a45919361eed5bcf82, type: 3}
+  fxs:
+  - {fileID: 11400000, guid: 262d3cfa26d9f4d4f90b82c8181ef528, type: 2}
+  - {fileID: 11400000, guid: 6ae1597fc072ceb499e48cb106f8aaef, type: 2}
+  - {fileID: 11400000, guid: 23bea8a918da7ea499d2f9649c5a3c4c, type: 2}
+  - {fileID: 11400000, guid: 1845538a7d9708c42bf7f16baf1da72a, type: 2}
   randomBG:
-  - {fileID: 8300000, guid: 6242deb6f2a750b46b95439dddf75f1f, type: 3}
-  - {fileID: 8300000, guid: a6965f58b63616c48a1b0d3008ccef68, type: 3}
-  - {fileID: 8300000, guid: b4f71dc4cfb42dc489d7ce722c6d7ebe, type: 3}
-  - {fileID: 8300000, guid: cbcb2c4dfeb491a45919361eed5bcf82, type: 3}
+  - {fileID: 11400000, guid: 54f01c9c317111441b95ae9c78a0925e, type: 2}
+  - {fileID: 11400000, guid: 3c34b2963de7afd469af2dbe0b298df1, type: 2}
+  - {fileID: 11400000, guid: 46088fd16e2260c45a92e6179cca01a0, type: 2}
+  - {fileID: 11400000, guid: 7633c9feefd63e54fa0d652cc6d04e2a, type: 2}
   volume: 0
 --- !u!1 &223989464
 GameObject:
@@ -3553,12 +3553,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd6e9c9646b27b4f92dcdab8d4460d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blasteroidsMain: {fileID: 8300000, guid: 0b4ff813e5e52f545af691076e2eef8a, type: 3}
-  blasteroidsVamp: {fileID: 8300000, guid: 20eef2d9e353e834dbe404c398efe318, type: 3}
-  day5Main: {fileID: 8300000, guid: a6c90f98ce82d1b47b7dc0ade0f6e78c, type: 3}
-  mainMenu: {fileID: 8300000, guid: 88dbb3866d79d98409dac2894708c54d, type: 3}
-  waterCooler: {fileID: 8300000, guid: 675573d81d3f0d04b8eefd62dd8a6d1c, type: 3}
-  typing: {fileID: 8300000, guid: 187f9965147e65a4c897e8407e0b0fb0, type: 3}
+  songs:
+  - {fileID: 11400000, guid: 97c88cb48d5802647aff20a9e2b62456, type: 2}
+  - {fileID: 11400000, guid: 43a828e58a6f55b4c8aafc35c832ae80, type: 2}
+  - {fileID: 11400000, guid: 4855332a716d96c43a24bf8a19741c53, type: 2}
+  - {fileID: 11400000, guid: 2cede5e32f20dca47a69a681d5edf630, type: 2}
+  - {fileID: 11400000, guid: 05f7e9d3090e2a14c82afe9f17ed2e0f, type: 2}
+  - {fileID: 11400000, guid: c7a52e5afb941d747a54973dbdb7e0cf, type: 2}
   isFading: 0
 --- !u!4 &631824927
 Transform:
